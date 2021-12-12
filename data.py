@@ -20,10 +20,18 @@ def list_datasets(root_dir, n_epochs=10):
     csv_paths = []
     for i in range(1,n_epochs+1):
         vp = os.path.join(root_dir,'epoch' + str(i).zfill(2) + '_front.mkv')
-        assert os.path.exists(vp)
+        try:
+            assert os.path.exists(vp)
+        except AssertionError:
+            print(vp)
+            raise AssertionError
         video_paths.append(vp)
         cp = os.path.join(root_dir,'epoch' + str(i).zfill(2) + '_steering.csv')
-        assert os.path.exists(cp)
+        try:
+            assert os.path.exists(cp)
+        except AssertionError:
+            print(cp)
+            raise AssertionError
         csv_paths.append(cp)
     return video_paths, csv_paths
 
@@ -69,10 +77,10 @@ def load_test_train_data(filepath='dataset.npy'):
     return X_train, X_test, Y_train, Y_test
 
 if __name__ == '__main__':
-    # X,Y = build_datasets(EPOCH_PATH, 2)
+    X,Y = build_datasets(EPOCH_PATH, 2)
     # print(X.shape, Y.shape)
     # del(X)
     # del(Y)
-    X, Y = load_datasets()
+    # X, Y = load_datasets()
     print(X.shape, Y.shape)
     save_datasets(X, Y)
