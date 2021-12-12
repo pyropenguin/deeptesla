@@ -13,7 +13,7 @@ from sklearn.model_selection import train_test_split
 # import local_common as cm
 # import model_tf2 as model
 
-EPOCH_PATH = r'.\epochs'
+EPOCH_PATH = r'epochs'
 
 def list_datasets(root_dir, n_epochs=10):
     video_paths = []
