@@ -71,8 +71,8 @@ def load_test_train_data(filepath='dataset.npy'):
 if __name__ == '__main__':
     # X,Y = build_datasets(EPOCH_PATH, 2)
     # print(X.shape, Y.shape)
-    # save_datasets(X, Y)
     # del(X)
     # del(Y)
     X, Y = load_datasets()
     print(X.shape, Y.shape)
+    save_datasets(X, Y)
