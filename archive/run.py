@@ -2,7 +2,7 @@
 from __future__ import division
 
 import tensorflow as tf
-import model
+import model_tf1
 import cv2
 import subprocess as sp
 import itertools
@@ -39,7 +39,7 @@ for epoch_id in epoch_ids:
         assert ret
 
         img = preprocess.preprocess(img)
-        deg = model.y.eval(feed_dict={model.x: [img], model.keep_prob: 1.0})[0][0]
+        deg = model_tf1.y.eval(feed_dict={model_tf1.x: [img], model_tf1.keep_prob: 1.0})[0][0]
         machine_steering.append(deg)
 
     cap.release()

@@ -3,7 +3,7 @@ from __future__ import division
 
 import os
 import tensorflow as tf
-import model
+import model_tf1
 import params
 import time
 
@@ -19,7 +19,7 @@ write_summary = params.write_summary
 
 sess = tf.InteractiveSession()
 
-loss = tf.reduce_mean(tf.square(tf.sub(model.y_, model.y)))
+loss = tf.reduce_mean(tf.square(tf.sub(model_tf1.y_, model_tf1.y)))
 # loss = tf.reduce_mean(tf.square(tf.sub(model.y_, model.y)))
 #         + tf.add_n([tf.nn.l2_loss(v) for v in train_vars]) * L2NormConst
 train_step = tf.train.AdamOptimizer(1e-4).minimize(loss)
@@ -46,17 +46,17 @@ if params.shuffle_training:
 for i in xrange(params.training_steps):
     txx, tyy = data.load_batch('train')
         
-    train_step.run(feed_dict={model.x: txx, model.y_: tyy, model.keep_prob: 0.8})
+    train_step.run(feed_dict={model_tf1.x: txx, model_tf1.y_: tyy, model_tf1.keep_prob: 0.8})
 
     # write logs at every iteration
     if write_summary:
-        summary = merged_summary_op.eval(feed_dict={model.x: txx, model.y_: tyy, model.keep_prob: 1.0})
+        summary = merged_summary_op.eval(feed_dict={model_tf1.x: txx, model_tf1.y_: tyy, model_tf1.keep_prob: 1.0})
         summary_writer.add_summary(summary, i)
 
     if (i+1) % 10 == 0:
         vxx, vyy = data.load_batch('val')
-        t_loss = loss.eval(feed_dict={model.x: txx, model.y_: tyy, model.keep_prob: 1.0})
-        v_loss = loss.eval(feed_dict={model.x: vxx, model.y_: vyy, model.keep_prob: 1.0})
+        t_loss = loss.eval(feed_dict={model_tf1.x: txx, model_tf1.y_: tyy, model_tf1.keep_prob: 1.0})
+        v_loss = loss.eval(feed_dict={model_tf1.x: vxx, model_tf1.y_: vyy, model_tf1.keep_prob: 1.0})
         print "step {} of {}, train loss {}, val loss {}".format(i+1, params.training_steps, t_loss, v_loss)
 
     if (i+1) % 100 == 0:
